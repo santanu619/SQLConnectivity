@@ -18,9 +18,11 @@ namespace EmployeePayrollService
             employee.Deductions = 1500.00;
             employee.StartDate = Convert.ToDateTime("2020-11-03");
 
-            if (repo.AddEmployee(employee))
-                Console.WriteLine("Records added successfully");
-            repo.GetAllEmployee();
+            //if (repo.AddEmployee(employee))
+            // Console.WriteLine("Records added successfully");
+            //repo.GetAllEmployee();
+            repo.SumOfBasicPay();
+            repo.EmployeeNameWithinGivenDate("2018-01-09", "2020-02-04");
             Console.ReadKey();
         }
 
