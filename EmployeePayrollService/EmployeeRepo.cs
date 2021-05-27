@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EmployeePayrollService
 {
     public class EmployeeRepo
     {
-        public static string connectionString = "Data Source=.;Initial Catalog=payroll_service;Integrated Security=True";
+        public static string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Payroll_service13;Integrated Security=True";
         SqlConnection connection = new SqlConnection(connectionString);
         public void GetAllEmployee()
         {
@@ -16,7 +18,7 @@ namespace EmployeePayrollService
                 EmployeeModel employeeModel = new EmployeeModel();
                 using (this.connection)
                 {
-                    string query = @"Select * from employee_payroll;";
+                    string query = @"Select * from Erdigram;";
                     SqlCommand cmd = new SqlCommand(query, this.connection);
                     this.connection.Open();
                     SqlDataReader dr = cmd.ExecuteReader();
@@ -33,10 +35,10 @@ namespace EmployeePayrollService
                             employeeModel.PhoneNumber = dr.GetString(5);
                             employeeModel.Address = dr.GetString(6);
                             employeeModel.Department = dr.GetString(7);
-                            //employeeModel.Deductions = dr.GetDouble(8);
-                            //employeeModel.TaxablePay = dr.GetDouble(9);
-                            //employeeModel.Tax = dr.GetDouble(10);
-                            //employeeModel.NetPay = dr.GetDouble(11);
+                            employeeModel.Deductions = dr.GetDouble(7);
+                            employeeModel.TaxablePay = dr.GetDouble(8);
+                            employeeModel.Tax = dr.GetDouble(9);
+                            employeeModel.NetPay = dr.GetDouble(10);
                             System.Console.WriteLine(employeeModel.EmployeeName + " " + employeeModel.BasicPay + " " + employeeModel.StartDate + " " + employeeModel.Gender + " " + employeeModel.PhoneNumber + " " + employeeModel.Address + " " + employeeModel.Department + " " + employeeModel.Deductions + " " + employeeModel.TaxablePay + " " + employeeModel.Tax + " " + employeeModel.NetPay);
                             System.Console.WriteLine("\n");
                         }
@@ -98,6 +100,5 @@ namespace EmployeePayrollService
         }
 
     }
-
 
 }
