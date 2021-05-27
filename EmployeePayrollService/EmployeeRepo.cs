@@ -130,6 +130,80 @@ namespace EmployeePayrollService
             }
             return false;
         }
+        public float SumOfBasicPay()
+        {
+            float sum = 0;
+            try
+            {
+                EmployeeModel employee = new EmployeeModel();
+                using (this.connection)
+                {
+                    string Sum = $"SELECT SUM(BasicPay) FROM employee_payroll;";
+                    string avg = $"SELECT AVG(BasicPay) FROM employee_payroll;";
+                    string Count = $"SELECT COUNT(BasicPay) FROM employee_payroll;";
+
+                    SqlCommand cmd = new SqlCommand(Sum, this.connection);
+                    this.connection.Open();
+                    SqlDataReader dr = cmd.ExecuteReader();
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            sum = dr.GetFloat(0);
+                        }
+                        return sum;
+                    }
+                    else
+                    {
+                        System.Console.WriteLine("No data found");
+                        return sum;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return sum;
+            }
+            finally
+            {
+                this.connection.Close();
+            }
+        }
+        public void EmployeeNameWithinGivenDate(string StartDate, string EndDate)
+        {
+            try
+            {
+                EmployeeModel employee = new EmployeeModel();
+                using (this.connection)
+                {
+                    string query = $"select name from employee_payroll where start between cast('{StartDate}' as date) and cast('{EndDate}' as date);";
+                    SqlCommand cmd = new SqlCommand(query, this.connection);
+                    this.connection.Open();
+                    SqlDataReader dr = cmd.ExecuteReader();
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            string name = dr.GetString(0);
+                            Console.WriteLine(name);
+                        }
+                    }
+                    else
+                    {
+                        System.Console.WriteLine("No data found");
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                this.connection.Close();
+            }
+        }
 
     }
 
